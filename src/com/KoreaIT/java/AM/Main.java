@@ -57,7 +57,7 @@ public class Main {
 
         Article foundArticle = null; // 찾은 게시글을 연결하는 변수 foundArticle (가정)
 
-        for (int i = 0; i < articles.size() ; i++){ //게시글의 존재 여부를 확인하는 과정
+        for (int i = 0; i < articles.size(); i++) { //게시글의 존재 여부를 확인하는 과정
           Article article = articles.get(i); // 일일이 비교하기 위해 가져옴
           if (article.id == id) { // articles에서 가져온 article 객체의 글번호와 id 비교
             foundArticle = article;
@@ -67,6 +67,7 @@ public class Main {
 
         if (foundArticle == null) {
           System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+          continue;
 
         } else {
           System.out.printf(" 번호 : %d\n", foundArticle.id);
@@ -74,8 +75,28 @@ public class Main {
           System.out.printf(" 제목 : %s\n", foundArticle.title);
           System.out.printf(" 내용 : %s\n", foundArticle.body);
         }
+      } else if (cmd.startsWith("article delete ")) {
+          String[] cmdBits = cmd.split("");
+          int id = Integer.parseInt(cmdBits[2]);
 
+          int foundIndex = -1; // 인덱스는 0부터 시작 -> 인덱스 -1 : 존재하지 않는 인덱스의 대명사
+                               // 위 문장과 같은 맥락
 
+          for (int i = 0; i < articles.size() ; i++){
+            Article article = articles.get(i);
+            if (article.id == id) {
+              foundIndex = i;
+              break;
+            }
+          }
+
+          if (foundIndex == -1) {
+            System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+            continue;
+          } else {
+            articles.remove(foundIndex);
+            System.out.printf("%d번 게시물이 삭제 되었습니다.\n", id);
+          }
 
       } else {
         System.out.println("존재하지 않는 명령어입니다.");
